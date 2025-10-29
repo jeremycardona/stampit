@@ -1,0 +1,28 @@
+---
+title: Flowchart
+---
+
+flowchart TD
+  START@{ shape: circle, label: "Start"}
+  INPUT1@{ shape: lean-r, label: "Name"}
+  INPUT2@{ shape: lean-r, label: "Receipt"}
+  DECISION1@{shape: diam, label: "Is receipt valid?"}
+  PROCESS1@{shape: rect, label: "Collect stamp"}
+  PROCESS2@{shape: rect, label: "Validate next receipt"}
+  DECISION2@{shape: diam, label: "More receipts?"}
+  PROCESS3@{shape: rect, label:""}
+  DATABASE@{shape: cyl, label: "DB"}
+  DECISION3@{shape: diam, label: "Is stamp collection complete?"}
+  PROCESS4@{shape: rect, label: "Redeem reward"}
+  PROCESS5@{shape: rect, label: ""}
+  STOP@{shape: dbl-circ, label: "End"}
+
+  START --> INPUT1 --> INPUT2
+  INPUT2 --> DECISION1 -- Yes --> PROCESS1
+  DECISION1 -- No --> PROCESS2 --> DECISION2 -- Yes --> INPUT2
+  DECISION2 -- No --> PROCESS3
+  PROCESS1 -- connect --> DATABASE --> DECISION3 -- Yes --> PROCESS4
+  DECISION3 -- No --> PROCESS5
+  PROCESS5 --> STOP 
+  PROCESS4 --> STOP
+  PROCESS3 --> STOP
