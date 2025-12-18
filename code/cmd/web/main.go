@@ -32,18 +32,6 @@ func (app *App) loggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func (app *App) home(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello, requested: " + r.URL.Path + "\n"))
-}
-
-func (app *App) claim(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Claim rewards " + r.URL.Path + "\n"))
-}
-
-func (app *App) rewards(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("View rewards " + r.URL.Path + "\n"))
-}
-
 func setupLogger(env string) *slog.Logger {
 	var handler slog.Handler
 
@@ -70,11 +58,31 @@ func main() {
 	app := &App{
 		logger: logger,
 	}
+	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	r := mux.NewRouter()
 	r.Use(app.loggingMiddleware)
-	r.HandleFunc("/", app.home)
-	r.HandleFunc("/claim", app.claim)
-	r.HandleFunc("/rewards", app.rewards)
+	r.HandleFunc("/", app.home).Methods("GET")
+	r.HandleFunc("/redeem", app.redeemPost).Methods("POST")
+	r.HandleFunc("/claim", app.claimPost).Methods("POST")
+	r.HandleFunc("/points", app.points).Methods("GET")
+	r.HandleFunc("/points", app.pointsPost).Methods("POST")
+	r.HandleFunc("/rewards", app.rewards).Methods("GET")
+	r.HandleFunc("/rewards", app.rewardsPost).Methods("POST")
+	r.HandleFunc("/history", app.customerHistory).Methods("GET")
+	r.HandleFunc("/transactions", app.employeeHistory).Methods("GET")
+	r.HandleFunc("/offer", app.offers).Methods("GET")
+	r.HandleFunc("/offer", app.offerPost).Methods("POST")
+	r.HandleFunc("/offer", app.offerPut).Methods("PUT")
+	r.HandleFunc("/offer", app.offerDelete).Methods("DELETE")
+	r.HandleFunc("/search", app.search).Methods("GET")
+	r.HandleFunc("/search", app.searchPost).Methods("POST")
+	r.HandleFunc("/purchase", app.purchase).Methods("GET")
+	r.HandleFunc("/purchase", app.purchasePost).Methods("POST")
+	r.HandleFunc("/login", app.loginPost).Methods("POST")
+	r.HandleFunc("/signup", app.signupPost).Methods("POST")
+	r.HandleFunc("/member", app.memberPost).Methods("POST")
+
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fileServer)).Methods("GET")
 
 	logger.Info("Server starting",
 		"port", 8080,

@@ -1,0 +1,28 @@
+package views
+
+import "github.com/jeremycardona/stampit/code/ui/components" // Import where Nav is defined
+
+templ Base(title string) {
+    <!doctype html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8"/>
+            <title>{ title } - StampIt!</title>
+            <link rel="stylesheet" href="/static/css/normalize.css" />
+            <link rel="stylesheet" href="/static/css/skeleton.css" />
+            <script src="/static/js/htmx.min.js"></script>
+        </head>
+        <body>
+            <header>
+                <h1><a href="/">StampIt!</a></h1>
+            </header>
+            
+            @components.Nav() // This replaces {{template "nav" .}}
+            
+            <main>
+                { children... }
+            </main>
+            <footer>Powered by <a href="https://golang.org/">Go</a></footer>
+        </body>
+    </html>
+}

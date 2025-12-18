@@ -1,7 +1,31 @@
 ---
-title: Customer flow
---- 
+title: customer flow
+---
 
 flowchart TD
-  START@{ shape: circle, label: "Start"}
+  START@{shape: circle, label: "Web app"}
+  PROCESS1@{shape: rect, label: "Enter receipt code"}
+  UINPUT1@{shape: sl-rect, label: "Receipt code"}
+  PROCESS2@{shape: rect, label: "Sign up/Log in"}
+  UINPUT2@{shape: sl-rect, label: "username/password"}
+  PAGE1@{shape: doc, label: "Card state"}
+  DECISION1@{shape: diam, label: "Collect points"}
+  DECISION2@{shape: diam, label: "Track loyalty points"}
+  DECISION3@{shape: diam, label: "Choose reward"}
+  DECISION4@{shape: diam, label: "Claim reward"}
+  PROCESS3@{shape: rect, label: "Pending approval"}
+  PAGE2@{shape: doc, label: "Success screen"}
+  END@{shape: dbl-circ, label: "Stop"}
 
+  START --> PROCESS1 --> UINPUT1 --> PROCESS2
+  PROCESS2 --> UINPUT2 --> PAGE1
+  PAGE1 --> DECISION1 --> DECISION2 --> DECISION3 --> DECISION4
+  DECISION4 --> PROCESS3 --> PAGE2  --> END
+  
+  PROCESS3 --> PAGE1
+
+  DECISION1 -- No --> END
+  DECISION2 -- No --> END
+  DECISION3 -- No --> END
+  DECISION4 -- No --> END
+  

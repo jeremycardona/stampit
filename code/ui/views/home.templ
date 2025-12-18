@@ -1,0 +1,20 @@
+package views
+
+// Home is your page component
+templ Home() {
+    // We call the Base component, passing "Home" as the title argument
+    @Base("Home") {
+        // Everything inside these brackets is passed to { children... } in Base
+        <p>There's nothing to see here yet!</p>
+        
+        // htmx example: easily add dynamic behavior to your main content
+        <button 
+            hx-get="/latest-stamps" 
+            hx-target="#stamp-container"
+            class="btn"
+        >
+            Check for Updates
+        </button>
+        <div id="stamp-container"></div>
+    }
+}

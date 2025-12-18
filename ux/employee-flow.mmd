@@ -1,0 +1,33 @@
+---
+title: employee flow
+---
+flowchart TD
+  START@{ shape: circle, label: "Start"}
+  PROCESS1@{ shape: rect, label: "Dashboard"}
+  DECISION1@{ shape: diam, label: "choose"}
+  INPUT1@{ shape: lean-r, label: "enter phone #"}
+  PROCESS2@{ shape: rect, label: "give points"}
+  PROCESS3@{ shape: rect, label: "register"}
+  INPUT2@{ shape: lean-r, label: "enter redeem confirmation #"}
+  PROCESS4@{ shape: rect, label: "list of pending rewards"}
+  DECISION2@{ shape: diam, label: "update selected #"}
+  PROCESS5@{ shape: rect, label: "offers"}
+  DECISION3@{ shape: diam, label: "mofidy offer"}
+  PROCESS6@{ shape: rect, label: "all transaction history"}
+  END@{ shape: circle, label: "End"}
+
+  START --> PROCESS1 --> END
+  PROCESS1 --> DECISION1
+  DECISION1 -- lookup phone --- INPUT1
+  DECISION1 -- search pending rewards --- INPUT2 & PROCESS4
+  DECISION1 -- rewards offers --- PROCESS5
+  DECISION1 -- transaction history --- PROCESS6 --> PROCESS1
+  INPUT1 --> PROCESS2 --> END
+  INPUT1 --> PROCESS3 --> PROCESS2 --> PROCESS1
+  INPUT2 --> PROCESS4 --> DECISION2
+  DECISION2 -- refund --- PROCESS4 --> PROCESS1
+  DECISION2 -- complete --- PROCESS4
+  PROCESS5 --> DECISION3
+  DECISION3 -- create --- PROCESS5 --> PROCESS1
+  DECISION3 -- edit --- PROCESS5
+  DECISION3 -- remove --- PROCESS5
